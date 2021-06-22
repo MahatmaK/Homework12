@@ -1,5 +1,5 @@
 // POPULATE TEST SUBJECT ID #S
-// ------------------------------- //
+// -------------------------------------------------------- //
 
 // Grab <select> tag to capture dropdown
 var dropdown = d3.select("select");
@@ -26,16 +26,35 @@ d3.json(path).then((data) => {
     // Store current test subject into variable
     var theSubject = d3.select("select").node().value;
 
-    // Populate Demogrphaic info
+    // Populate intial demographic info (ID #940)
     optionChanged(theSubject);
-
 }); 
+// -------------------------------------------------------- //
+
+
+
+
+// IF USERS CHANGE SUBJECT ID
+// -------------------------------------------------------- //
+// Define main function optionChanged
+function optionChanged(theSubject) {
+
+    // Show demographic info
+    demographicInfo(theSubject);
+
+    // Show bar and bubble charts
+    allCharts(theSubject);
+}
+// -------------------------------------------------------- //
+
+
+
 
 
 // SHOW DEMOGRAPHIC INFO
-// ------------------------------- //
+// -------------------------------------------------------- //
 
-function optionChanged(theSubject) {
+function demographicInfo(theSubject) {
     
     // Remove any existing <p> tags
     d3.selectAll("p").remove();
@@ -79,4 +98,116 @@ function optionChanged(theSubject) {
             }
         });
     });
-}
+};
+// -------------------------------------------------------- //
+
+
+
+// SHOW BAR CHART
+// -------------------------------------------------------- //
+
+function allCharts(theSubject) {
+
+    // Pull data from json. 'Then' define variables
+    d3.json(path).then((data) => {
+        
+        // Store current test subject into variable
+        var theSubject = d3.select("select").node().value;
+        
+        // Iterate through samples
+        data.samples.forEach(subject => {
+
+            // Check if id's match
+            if (subject.id == theSubject) {
+
+                // Sample Values
+                var sampleValues = subject.sample_values;
+
+                // OTU IDs            
+                var otuIds = subject.otu_ids;
+
+                // OTU Labels
+                var otuLabels = subject.otu_labels;
+
+                // GET TOP 10 BACTERIA CULTURES FOR SUBJECT
+                // -------------------------------------- //
+
+                // Define blank sample values
+                var tenSampleValues = [];
+
+                // Define blank OTU IDs array. We will attach "OTU" to the current otuIds (e.g. 1167 -> OTU 1167)
+                var tenOtuIds = [];
+                
+                // Define blank OTU Labels array
+                var tenOtuLabels = [];
+
+                // Get top 10 OTUs
+                for (var i = 0; i < 10 && i < sampleValues.length; i++) {
+
+                    // Append index to each of the blank arrays
+                    tenSampleValues.push(sampleValues[i]);
+                    tenOtuIds.push(`OTU ${otuIds[i]}`);
+                    tenOtuLabels.push(otuLabels[i]);
+                }         
+                
+                // Reverse orders of arrays to go descending
+                tenSampleValues = tenSampleValues.reverse();
+                tenOtuIds = tenOtuIds.reverse();
+                tenOtuLabels = tenOtuLabels.reverse();
+                // -------------------------------------- //
+
+                // PLOT HORIZONTAL BAR CHART 
+                // -------------------------------------- //
+
+                // Define trace
+                var trace1 = {
+                    x: tenSampleValues,
+                    y: tenOtuIds,
+                    text: tenOtuLabels, 
+                    type: 'bar',
+                    orientation: 'h',
+                };
+
+                // Define data
+                var data = [trace1];
+
+                // Define layout
+                var layout = {
+                    title: "Top 10 Bacteria Cultures Found",
+                };
+                
+                // Plot bar chart
+                Plotly.newPlot("bar", data, layout);
+                // -------------------------------------- //
+
+
+                // PLOT BUBBLE CHART
+                // -------------------------------------- //
+
+                // Define trace 
+                var trace1 = {
+                    x: otuIds,
+                    y: sampleValues,
+                    text: otuLabels,
+                    mode: 'markers',
+                    marker: {
+                        size: sampleValues,
+                        color: otuIds,
+                    }
+                };
+
+                var data = [trace1];
+
+                var layout = {
+                    xaxis: {
+                        title: "OTU ID"
+                    }
+                };
+
+                Plotly.newPlot("bubble", data, layout);
+  
+            };
+        });
+    });
+};
+// -------------------------------------------------------- //
