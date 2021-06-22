@@ -44,6 +44,10 @@ function optionChanged(theSubject) {
 
     // Show bar and bubble charts
     allCharts(theSubject);
+
+    // Show gauge
+    
+
 }
 // -------------------------------------------------------- //
 
@@ -94,6 +98,9 @@ function demographicInfo(theSubject) {
                     
                     // Change font 
                     paragraph.style('font-family', 'Seriff');
+
+                    // Set ID
+                    paragraph.attr('id', key);
                 });
             }
         });
@@ -205,7 +212,7 @@ function allCharts(theSubject) {
                 };
 
                 Plotly.newPlot("bubble", data, layout);
-  
+                // -------------------------------------- //
             };
         });
     });
