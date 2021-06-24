@@ -46,14 +46,13 @@ function plotGauge(wFreqValue) {
 
     var layout = {
         title: {
-            text: "<b>Belly Button Washing Frequency 2<b>",
+            text: "<b>Belly Button Washing Frequency<b>",
             font: {
-                size: 30,
+                size: 20,
             },
         },
-        width: 600,
-        height: 450,
         margin: {
+            t: 200,
             b: 100,
         }
     };

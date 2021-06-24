@@ -79,15 +79,14 @@ function demographicInfo(theSubject) {
     var path = `samples.json`;
     
     // Pull data from json. 'Then' define variables
-    test(path, theSubject);
+    thePromise(path, theSubject);
     
     
 };
-// -------------------------------------------------------- //
 
-// TEST FUNCTION //
+// Promise FUNCTION //
 
-function test(path, theSubject) {
+function thePromise(path, theSubject) {
     return d3.json(path).then((data) => {
 
         // Pull data for every subject from data into an array
@@ -140,60 +139,7 @@ function test(path, theSubject) {
     });
 }
 
-
-
-
-// return d3.json(path).then((data) => {
-
-    //     // Pull data for every subject from data into an array
-    //     var metadata = data.metadata;
-
-    //     // Iterate through each subject
-    //     metadata.forEach(subjects => {
-
-    //         if (subjects.id == theSubject) {
-
-    //             // Iterate through all keys and their respective values
-    //             Object.entries(subjects).forEach(([key, value]) => {
-                    
-    //                 // Change key to uppercase
-    //                 var upperKey = key.toUpperCase();
-
-    //                 // Define sentence to be added
-    //                 var sentence = `${upperKey}: ${value}`
-
-    //                 // Select where to append keys and values
-    //                 var demographic = d3.select("#sample-metadata");
-
-    //                 // Append <p> tag
-    //                 var paragraph = demographic.append("p");
-
-    //                 // Define what <p> should say
-    //                 paragraph.text(sentence); 
-                    
-    //                 // Change style of <p>
-    //                 paragraph.style("font-weight", "bold");
-                    
-    //                 // Change font 
-    //                 paragraph.style('font-family', 'Seriff');
-
-    //                 // Set ID
-    //                 paragraph.attr('id', key);
-
-    //                 // Store wfreq value
-    //                 if (key == 'wfreq') {
-    //                     wFreq = value;                        
-    //                 }    
-    //             });
-    //         }
-            
-            
-    //     });  
-    //     console.log(wFreq);
-    //     return(wFreq);       
-    // }); 
-
-
+// -------------------------------------------------------- //
 
 
 // SHOW BAR AND BUBBLE
@@ -217,7 +163,9 @@ function allCharts(theSubject) {
         data.samples.forEach(subject => {
 
             // Check if id's match
-            if (subject.id == theSubject) {
+            switch (subject.id) {
+
+                case theSubject:
 
                 // Sample Values
                 var sampleValues = subject.sample_values;
@@ -304,9 +252,22 @@ function allCharts(theSubject) {
                 };
 
                 Plotly.newPlot("bubble", data, layout);
+
+                break
                 // -------------------------------------- //
+
             };
         });
     });
 };
 // -------------------------------------------------------- //
+
+
+
+
+
+
+
+
+
+
