@@ -243,6 +243,7 @@ function allCharts(theSubject) {
                     }
                 };
 
+                // Define data
                 var data = [trace1];
 
                 var layout = {
@@ -251,6 +252,7 @@ function allCharts(theSubject) {
                     }
                 };
 
+                // Plot bubble chart
                 Plotly.newPlot("bubble", data, layout);
 
                 break
