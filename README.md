@@ -1,4 +1,4 @@
-# Javascript
+# Plotly
 The repository for Javascript project
 
 Files to submitted:
