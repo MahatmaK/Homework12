@@ -1,5 +1,5 @@
 # Plotly
-The repository for Javascript project
+The repository for Plotly project
 
 Files to submitted:
 -----------------------------
