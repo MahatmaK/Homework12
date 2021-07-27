@@ -1,5 +1,5 @@
-# Homework12_belly-button-biodiversity
-The repository for Homework 10
+# Javascript
+The repository for Javascript project
 
 Files to submitted:
 -----------------------------
